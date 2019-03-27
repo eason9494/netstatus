@@ -39,9 +39,13 @@ public class Application {
             isr.close();
             br.close();
             Integer ping = null;
+            Integer lost = null;
             try {
                 String s = sb.substring(b+5, b+6);
                 ping = Integer.parseInt(s);
+                int end = sb.indexOf("%");
+                int start = sb.indexOf("(");
+                lost = Integer.parseInt(sb.substring(start+1, end));
             }catch (Exception e){
                 System.out.println("================================= 转换异常 ====================================");
             }finally {
@@ -49,7 +53,11 @@ public class Application {
                     if (sb.toString().indexOf("TTL") > 0) {
                     } else if (ping != null && ping > 50){
                         printLog(ping, sb.toString(), "波动");
-                    }else {
+                    }
+                    else if(lost > 0){
+                        printLog(ping, sb.toString(), "波动");
+                    }
+                    else {
                         printLog(ping, sb.toString(), "异常");
                         System.out.println("================================= 网络异常 ====================================");
                     }
